@@ -1,0 +1,33 @@
+version: "3"
+services:
+  zookeeper:
+    image: "wurstmeister/zookeeper:latest"
+    ports:
+      - '2181:2181'
+  kafka:
+    image:  "kafka-ssl"
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    hostname: kafka-broker
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: '${HOST_ADDRESS}'
+      KAFKA_ADVERTISED_PORT: '9092'
+      KAFKA_HOST_NAME: 'kafka-broker'
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENERS: 'SSL://kafka-broker:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'SSL://${HOST_ADDRESS}:9092'
+      KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M"
+      KAFKA_INTER_BROKER_LISTENER_NAME: SSL
+      KAFKA_SSL_KEYSTORE_LOCATION: '/certificates/server.jks'
+      KAFKA_SSL_KEYSTORE_PASSWORD: 'secret'
+      KAFKA_SSL_TRUSTSTORE_LOCATION: '/certificates/truststore.jks'
+      KAFKA_SSL_TRUSTSTORE_PASSWORD: 'secret'
+      KAFKA_SSL_CLIENT_AUTH: 'required'
+      KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM:
+      KAFKA_CREATE_TOPICS: '${KAFKA_TOPICS}'
+    volumes:
+      - './ssl:/certificates'
+      - /var/run/docker.sock:/var/run/docker.sock

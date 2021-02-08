@@ -84,9 +84,9 @@ kafka-topics --command-config ./client/client-ssl.properties --list --bootstrap-
 kafka-topics --command-config ./client/client-ssl.properties --create --topic <topic-name> --partitions <partitions> --replication-factor <replication_factor> --bootstrap-server localhost:9092
 ```
 
-  topic-name - name of topic
-  partitions - number of partitions of topic
-  replication-facotr - number of replications, must be equal or lower than number of brokers
+  * `topic-name` - name of topic
+  * `partitions` - number of partitions of topic
+  * `replication-factor` - number of replications, must be equal or lower than number of brokers
 
 
 Examples:

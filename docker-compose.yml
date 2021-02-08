@@ -4,7 +4,7 @@ services:
     image: "wurstmeister/zookeeper:latest"
     ports:
       - '2181:2181'
-  kafka:
+  kafka-broker:
     image:  "kafka-ssl"
     depends_on:
       - zookeeper
@@ -17,7 +17,7 @@ services:
       KAFKA_ADVERTISED_PORT: '9092'
       KAFKA_HOST_NAME: 'kafka-broker'
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENERS: 'SSL://kafka-broker:9092'
+      KAFKA_LISTENERS: 'SSL://0.0.0.0:9092'
       KAFKA_ADVERTISED_LISTENERS: 'SSL://${HOST_ADDRESS}:9092'
       KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M"
       KAFKA_INTER_BROKER_LISTENER_NAME: SSL
